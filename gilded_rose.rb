@@ -1,6 +1,7 @@
 require './item.rb'
 
 class GildedRose
+  attr_accessor :items
 
   @items = []
 
@@ -20,21 +21,21 @@ class GildedRose
       if (@items[i].name != "Aged Brie" && @items[i].name != "Backstage passes to a TAFKAL80ETC concert")
         if (@items[i].quality > 0)
           if (@items[i].name != "Sulfuras, Hand of Ragnaros")
-            @items[i].quality = @items[i].quality - 1
+            alter_quality(i, -1)
           end
         end
       else
         if (@items[i].quality < 50)
-          @items[i].quality = @items[i].quality + 1
+          alter_quality(i, 1)
           if (@items[i].name == "Backstage passes to a TAFKAL80ETC concert")
             if (@items[i].sell_in < 11)
               if (@items[i].quality < 50)
-                @items[i].quality = @items[i].quality + 1
+                alter_quality(i, 1)
               end
             end
             if (@items[i].sell_in < 6)
               if (@items[i].quality < 50)
-                @items[i].quality = @items[i].quality + 1
+                alter_quality(i, 1)
               end
             end
           end
@@ -48,19 +49,24 @@ class GildedRose
           if (@items[i].name != "Backstage passes to a TAFKAL80ETC concert")
             if (@items[i].quality > 0)
               if (@items[i].name != "Sulfuras, Hand of Ragnaros")
-                @items[i].quality = @items[i].quality - 1
+                alter_quality(i, -1)
               end
             end
           else
-            @items[i].quality = @items[i].quality - @items[i].quality
+            alter_quality(i, -@items[i].quality)
           end
         else
           if (@items[i].quality < 50)
-            @items[i].quality = @items[i].quality + 1
+            alter_quality(i,1)
           end
         end
       end
     end
+    self
+  end
+
+  def alter_quality(i, amount)
+    @items[i].quality = @items[i].quality + amount
   end
 
 end
